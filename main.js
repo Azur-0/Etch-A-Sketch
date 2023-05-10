@@ -6,10 +6,11 @@ let size = sizeInput.value;
 gridSizeText.textContent = `${size}x${size}`;
 
 let pixels;
+let gridLines = true; 
 
 function fillContainer() {    
-    container.style.gridTemplateColumns = `repeat(${size}, 1fr)`
-    container.style.gridTemplateRows = `repeat(${size}, 1fr)`
+    container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    container.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
     for(i = 0; i < size*size; i++) {
         const gridElement = document.createElement('div');
@@ -17,7 +18,14 @@ function fillContainer() {
         container.appendChild(gridElement);
     }
 
-    pixels = document.querySelectorAll('.grid-pixel');    
+    pixels = document.querySelectorAll('.grid-pixel');
+    if(gridLines){
+        pixels.forEach(pixel => {
+            pixel.style.borderTop = '1px solid rgb(187, 186, 186)';
+            pixel.style.borderLeft = '1px solid rgb(187, 186, 186)';        
+        });
+    }
+
     fillOnHover();
 }
 
@@ -40,3 +48,30 @@ function changeGridSize() {
 
 sizeInput.addEventListener('mouseup', changeGridSize);
 fillContainer();
+
+function toggleGridLines() {
+    pixels.forEach(pixel => {
+
+        if(gridLines){
+            pixel.style.border = '0px';          
+        }
+        else {
+            pixel.style.borderLeft = '1px solid rgb(187, 186, 186)';
+            pixel.style.borderTop = '1px solid rgb(187, 186, 186)';
+        }
+    });
+    
+    if(gridLines) {        
+        container.style.border = '1px solid rgb(187, 186, 186)';
+    }
+    else {
+        container.style.border = '0px';
+        container.style.borderRight  = '1px solid rgb(187, 186, 186)';
+        container.style.borderBottom = '1px solid rgb(187, 186, 186)';
+    }
+    
+    gridLines = !gridLines;
+}
+
+const borderButton = document.querySelector('#toggle-border');
+borderButton.addEventListener('click', toggleGridLines);
