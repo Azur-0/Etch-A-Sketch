@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+html{
+    height: 100%;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    gap: 20px;
+}
+
+#left-side {
+    height: 500px;
+    width: 200px;
+    background-color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#container {
+    width: 500px;
+    height: 500px;
+    display: grid;
+    border-right: 1px solid rgb(187, 186, 186);
+    border-bottom: 1px solid rgb(187, 186, 186);
+}
+
+.grid-pixel {
+    border-top: 1px solid rgb(187, 186, 186);
+    border-left: 1px solid rgb(187, 186, 186);
+}
