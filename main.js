@@ -1,4 +1,5 @@
 const container = document.querySelector('#container');
+const leftSideDiv = document.querySelector('#left-side');
 const gridSizeText = document.querySelector('#grid-size-text');
 
 const sizeInput = document.querySelector('#grid-size-input');  
@@ -10,6 +11,19 @@ let rainbowMode = false;
 
 let pixels;
 let gridLines = true;
+
+const body = document.body;
+
+leftSideDiv.addEventListener('mouseup', removeHoverFill);
+container.addEventListener('mouseup', disableDrawingAfterLeavingCanvas);
+body.addEventListener('mouseup', disableDrawingAfterLeavingCanvas);
+body.addEventListener('mousedown', fillOnHover);
+
+function disableDrawingAfterLeavingCanvas(e) {
+    if (e.srcElement.localName == 'body' || e.srcElement.id == 'container'){
+        removeHoverFill();
+    }
+}
 
 const colorInput = document.querySelector('#color-pick');
 let color = colorInput.value;
@@ -36,8 +50,24 @@ function fillContainer() {
         });
     }
 
-    fillOnHover();
+    mouseDownDraw();
     rainbowToggle();
+}
+
+function mouseDownDraw() {
+    pixels.forEach(pixel => {        
+        pixel.addEventListener('mousedown', function() {
+            this.style.backgroundColor = color;
+            fillOnHover();
+        });
+        pixel.addEventListener('mouseup', removeHoverFill);
+    })
+}
+
+function removeHoverFill() {
+    pixels.forEach(pixel => {
+        pixel.removeEventListener('mouseover', fillColors);
+    }); 
 }
 
 function fillOnHover() {        
