@@ -1,12 +1,19 @@
 const container = document.querySelector('#container');
 const gridSizeText = document.querySelector('#grid-size-text');
 
-const sizeInput = document.querySelector('input');  
+const sizeInput = document.querySelector('#grid-size-input');  
 let size = sizeInput.value;
 gridSizeText.textContent = `${size}x${size}`;
 
 let pixels;
-let gridLines = true; 
+let gridLines = true;
+
+const colorInput = document.querySelector('#color-pick');
+let color = colorInput.value;
+
+colorInput.addEventListener('input', function(e) {
+    color = this.value;
+})
 
 function fillContainer() {    
     container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
@@ -33,7 +40,7 @@ function fillContainer() {
 function fillOnHover() {
     pixels.forEach(pixel => {
         pixel.addEventListener('mouseover', function () {
-            pixel.style.backgroundColor = 'black';
+            pixel.style.backgroundColor = color;
         });
     });
 }

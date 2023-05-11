@@ -12,16 +12,22 @@ body {
     height: 100%;
     align-items: center;
     gap: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
 }
 
 #left-side {
+    box-sizing: border-box;
+    padding: 20px 0px;
     height: 500px;
     width: 200px;
     background-color: aliceblue;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: column;    
+    flex-basis: 200px;
 }
 
 #toggle-border {
@@ -40,7 +46,13 @@ body {
     display: grid;
     border-right: 1px solid rgb(187, 186, 186);
     border-bottom: 1px solid rgb(187, 186, 186);
+    flex-shrink: 1;
+    margin: 20px 0;
 }
 
-.grid-pixel {
+#color-pick {
+    margin-bottom: auto;
+    border: none;
+    padding: 0;
+    background-color: transparent;
 }
