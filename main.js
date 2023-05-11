@@ -37,6 +37,7 @@ function fillContainer() {
     }
 
     fillOnHover();
+    rainbowToggle();
 }
 
 function fillOnHover() {        
