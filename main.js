@@ -5,6 +5,9 @@ const sizeInput = document.querySelector('#grid-size-input');
 let size = sizeInput.value;
 gridSizeText.textContent = `${size}x${size}`;
 
+const rainbowButton = document.querySelector('#rainbow-button');
+let rainbowMode = false;
+
 let pixels;
 let gridLines = true;
 
@@ -36,14 +39,53 @@ function fillContainer() {
     fillOnHover();
 }
 
-
-function fillOnHover() {
+function fillOnHover() {        
     pixels.forEach(pixel => {
-        pixel.addEventListener('mouseover', function () {
-            pixel.style.backgroundColor = color;
-        });
+        pixel.addEventListener('mouseover', fillColors);
+    });        
+};
+    
+function fillColors() {
+    this.style.backgroundColor = color;
+}
+
+
+let rainbowColorsArray = ['red', 'orange', 'yellow', 
+                     'lightgreen', 'lightskyblue', 'blue', 'purple'];
+let rainbowArrayItem = 1;
+
+function rainbowColors() {
+    color = rainbowColorsArray[0];
+    rainbowArrayItem = 1;
+    pixels.forEach(pixel => {
+        pixel.addEventListener('mouseover', rainbowColorsListener);
     });
 }
+
+function rainbowColorsListener() {
+    color = rainbowColorsArray[rainbowArrayItem];            
+    rainbowArrayItem++;
+    if(rainbowArrayItem == 7) {
+        rainbowArrayItem = 0;
+    }
+}
+
+function rainbowToggle() {
+    if (rainbowMode == true) {
+        rainbowColors();
+    }
+    else {
+        color = colorInput.value;
+        pixels.forEach(pixel => {
+            pixel.removeEventListener('mouseover', rainbowColorsListener);
+        }); 
+    }
+}
+
+rainbowButton.addEventListener('click', function() {
+    rainbowMode = !rainbowMode;
+    rainbowToggle();
+});
 
 
 function changeGridSize() {
@@ -82,4 +124,3 @@ function toggleGridLines() {
 
 const borderButton = document.querySelector('#toggle-border');
 borderButton.addEventListener('click', toggleGridLines);
-// test2
