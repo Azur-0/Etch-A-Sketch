@@ -82,4 +82,4 @@ function toggleGridLines() {
 
 const borderButton = document.querySelector('#toggle-border');
 borderButton.addEventListener('click', toggleGridLines);
-// test
+// test2
