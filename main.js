@@ -14,6 +14,8 @@ let gridLines = false;
 
 const body = document.body;
 
+let backgroundChanged = false;
+
 
 leftSideDiv.addEventListener('mouseup', removeHoverFill);
 container.addEventListener('mouseup', disableDrawingAfterLeavingCanvas);
@@ -59,6 +61,9 @@ function fillContainer() {
         rainbowToggle();
     }
     
+    if(backgroundChanged) {
+        backgroundChangeOnGridChange();
+    }
 }
 
 function mouseDownDraw() {
@@ -153,10 +158,10 @@ function activateEraser() {
         eraser.style.backgroundColor = 'rgb(75, 60, 172)';
         eraser.style.color = 'white';
         rainbowMode = false;
-        color = 'white';
+        color = backgroundColor;
     }
     else if (eraserMode) {
-        color = 'white';
+        color = backgroundColor;
         eraser.style.backgroundColor = 'rgb(75, 60, 172)';
         eraser.style.color = 'white';
     }
@@ -223,11 +228,10 @@ function toggleGridLines() {
 const gridLinesButton = document.querySelector('#toggle-border');
 gridLinesButton.addEventListener('click', toggleGridLines);
 
-let gridBackgroundColor = 'white';
 const clearAll = document.querySelector('#clear-all');
 clearAll.addEventListener('click', () =>{
     pixels.forEach(pixel => {
-        pixel.style.backgroundColor = gridBackgroundColor;
+        pixel.style.backgroundColor = backgroundColor;
     });
     clearAll.style.backgroundColor = 'rgb(75, 60, 172)';
     clearAll.style.color = 'white';
@@ -236,3 +240,37 @@ clearAll.addEventListener('click', () =>{
         clearAll.style.color = 'rgb(75, 60, 172)';
     }, 100);
 })
+
+const backgroundColorButton = document.querySelector('#background-color-input');
+let backgroundColor = '';
+let newBackgroundColor = '';
+
+backgroundColorButton.addEventListener('change', () =>{
+    backgroundChanged = true;
+    newBackgroundColor = backgroundColorButton.value;
+    hex2rgb(newBackgroundColor);
+    pixels.forEach(pixel => {
+        if(pixel.style.backgroundColor == backgroundColor){
+            pixel.style.backgroundColor = newBackgroundColor;
+        }
+    });
+    backgroundColor = newBackgroundColor;
+    if(eraserMode) {
+        color = backgroundColor;
+    }
+});
+
+function backgroundChangeOnGridChange() {
+    pixels.forEach(pixel => {
+            pixel.style.backgroundColor = newBackgroundColor;       
+    });
+}
+
+function hex2rgb(hex) {
+    let red = parseInt(hex.substring(1, 3), 16);
+    let green = parseInt(hex.substring(3, 5), 16);
+    let blue = parseInt(hex.substring(5, 7), 16);
+
+    let rgb = `rgb(${red}, ${green}, ${blue})`;
+    newBackgroundColor = rgb;
+}

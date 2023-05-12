@@ -25,8 +25,8 @@ body {
     background-color: aliceblue;
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;    
+    flex-direction: column;   
+    flex-shrink: 1; 
     flex-basis: 200px;
 }
 
@@ -93,11 +93,34 @@ body {
 }
 
 #color-pick {
-    margin-bottom: auto;
     border: none;
     padding: 0;
     background-color: transparent;
+    cursor: pointer;
 }
+
+#background-color-input {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#color-pickers-container {
+    display: flex;
+    margin-bottom: auto;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.color-pickers {
+    display: flex;
+    color: rgb(75, 60, 172);
+    align-items: center;
+    justify-content: flex-end;
+}
+
 
 #grid-size-text {
     margin-top: 20px;
