@@ -14,6 +14,7 @@ let gridLines = true;
 
 const body = document.body;
 
+
 leftSideDiv.addEventListener('mouseup', removeHoverFill);
 container.addEventListener('mouseup', disableDrawingAfterLeavingCanvas);
 body.addEventListener('mouseup', disableDrawingAfterLeavingCanvas);
@@ -51,7 +52,10 @@ function fillContainer() {
     }
 
     mouseDownDraw();
-    rainbowToggle();
+    if(!eraserMode) {
+        rainbowToggle();
+    }
+    
 }
 
 function mouseDownDraw() {
@@ -102,10 +106,22 @@ function rainbowColorsListener() {
 }
 
 function rainbowToggle() {
-    if (rainbowMode == true) {
+    if (rainbowMode && eraserMode) {
         rainbowColors();
+        eraserMode = false;
+        rainbowButton.style.backgroundColor = 'rgb(75, 60, 172)';
+        rainbowButton.style.color = 'white';
+        eraser.style.backgroundColor = 'transparent';
+        eraser.style.color = 'rgb(75, 60, 172)';
+    }
+    else if (rainbowMode) {
+        rainbowColors();
+        rainbowButton.style.backgroundColor = 'rgb(75, 60, 172)';
+        rainbowButton.style.color = 'white';
     }
     else {
+        rainbowButton.style.backgroundColor = 'transparent';
+        rainbowButton.style.color = 'rgb(75, 60, 172)';
         color = colorInput.value;
         pixels.forEach(pixel => {
             pixel.removeEventListener('mouseover', rainbowColorsListener);
@@ -117,6 +133,41 @@ rainbowButton.addEventListener('click', function() {
     rainbowMode = !rainbowMode;
     rainbowToggle();
 });
+
+const eraser = document.querySelector('#eraser');
+let eraserMode = false;
+
+eraser.addEventListener('click', activateEraser);
+
+function activateEraser() {
+    eraserMode = !eraserMode;
+    if (eraserMode && rainbowMode) {
+        pixels.forEach(pixel => {
+            pixel.removeEventListener('mouseover', rainbowColorsListener);
+        });
+        rainbowButton.style.backgroundColor = 'transparent';
+        rainbowButton.style.color = 'rgb(75, 60, 172)';
+        eraser.style.backgroundColor = 'rgb(75, 60, 172)';
+        eraser.style.color = 'white';
+        rainbowMode = false;
+        color = 'white';
+    }
+    else if (eraserMode) {
+        color = 'white';
+        eraser.style.backgroundColor = 'rgb(75, 60, 172)';
+        eraser.style.color = 'white';
+    }
+    else if (rainbowMode) {
+        rainbowColors();
+        eraser.style.backgroundColor = 'transparent';
+        eraser.style.color = 'rgb(75, 60, 172)';
+    }
+    else {
+        eraser.style.backgroundColor = 'transparent';
+        eraser.style.color = 'rgb(75, 60, 172)';
+        color = colorInput.value;
+    }
+}
 
 
 function changeGridSize() {
@@ -141,7 +192,7 @@ function toggleGridLines() {
     pixels.forEach(pixel => {
 
         if(gridLines){
-            pixel.style.border = '0px';          
+            pixel.style.border = '0px';  
         }
         else {
             pixel.style.borderLeft = '1px solid rgb(187, 186, 186)';
@@ -151,15 +202,20 @@ function toggleGridLines() {
     
     if(gridLines) {        
         container.style.border = '1px solid rgb(187, 186, 186)';
+        gridLinesButton.style.backgroundColor = 'rgb(75, 60, 172)';
+        gridLinesButton.style.color = 'white';
     }
     else {
         container.style.border = '0px';
         container.style.borderRight  = '1px solid rgb(187, 186, 186)';
         container.style.borderBottom = '1px solid rgb(187, 186, 186)';
+        gridLinesButton.style.backgroundColor = 'transparent';
+        gridLinesButton.style.color = 'rgb(75, 60, 172)';
     }
     
     gridLines = !gridLines;
 }
 
-const borderButton = document.querySelector('#toggle-border');
-borderButton.addEventListener('click', toggleGridLines);
+const gridLinesButton = document.querySelector('#toggle-border');
+gridLinesButton.addEventListener('click', toggleGridLines);
+
