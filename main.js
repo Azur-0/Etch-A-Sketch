@@ -120,13 +120,21 @@ rainbowButton.addEventListener('click', function() {
 
 
 function changeGridSize() {
-    container.innerHTML = '';
-    size = sizeInput.value;
-    gridSizeText.textContent = `${size}x${size}`;
-    fillContainer();
+    if(size != sizeInput.value){
+        container.innerHTML = '';
+        size = sizeInput.value;
+        gridSizeText.textContent = `${size}x${size}`;
+        fillContainer();
+    }
 }
 
+function changeGridSizeText() {
+    gridSizeText.textContent = `${sizeInput.value}x${sizeInput.value}`;
+}
+
+sizeInput.addEventListener('input', changeGridSizeText)
 sizeInput.addEventListener('mouseup', changeGridSize);
+
 fillContainer();
 
 function toggleGridLines() {
