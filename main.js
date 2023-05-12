@@ -10,7 +10,7 @@ const rainbowButton = document.querySelector('#rainbow-button');
 let rainbowMode = false;
 
 let pixels;
-let gridLines = true;
+let gridLines = false;
 
 const body = document.body;
 
@@ -49,6 +49,9 @@ function fillContainer() {
             pixel.style.borderTop = '1px solid rgb(187, 186, 186)';
             pixel.style.borderLeft = '1px solid rgb(187, 186, 186)';        
         });
+    }
+    else {
+        container.style.border = '1px solid rgb(187, 186, 186)';
     }
 
     mouseDownDraw();
@@ -189,33 +192,47 @@ sizeInput.addEventListener('mouseup', changeGridSize);
 fillContainer();
 
 function toggleGridLines() {
+    gridLines = !gridLines;
+
     pixels.forEach(pixel => {
 
         if(gridLines){
-            pixel.style.border = '0px';  
-        }
-        else {
             pixel.style.borderLeft = '1px solid rgb(187, 186, 186)';
             pixel.style.borderTop = '1px solid rgb(187, 186, 186)';
+        }
+        else {
+            pixel.style.border = '0px';
         }
     });
     
     if(gridLines) {        
-        container.style.border = '1px solid rgb(187, 186, 186)';
-        gridLinesButton.style.backgroundColor = 'rgb(75, 60, 172)';
-        gridLinesButton.style.color = 'white';
-    }
-    else {
         container.style.border = '0px';
         container.style.borderRight  = '1px solid rgb(187, 186, 186)';
         container.style.borderBottom = '1px solid rgb(187, 186, 186)';
-        gridLinesButton.style.backgroundColor = 'transparent';
-        gridLinesButton.style.color = 'rgb(75, 60, 172)';
+        gridLinesButton.style.backgroundColor = 'rgb(75, 60, 172)';
+        gridLinesButton.style.color = 'white';
+             
     }
-    
-    gridLines = !gridLines;
+    else {
+        container.style.border = '1px solid rgb(187, 186, 186)';
+        gridLinesButton.style.backgroundColor = 'transparent';
+        gridLinesButton.style.color = 'rgb(75, 60, 172)';   
+    }
 }
 
 const gridLinesButton = document.querySelector('#toggle-border');
 gridLinesButton.addEventListener('click', toggleGridLines);
 
+let gridBackgroundColor = 'white';
+const clearAll = document.querySelector('#clear-all');
+clearAll.addEventListener('click', () =>{
+    pixels.forEach(pixel => {
+        pixel.style.backgroundColor = gridBackgroundColor;
+    });
+    clearAll.style.backgroundColor = 'rgb(75, 60, 172)';
+    clearAll.style.color = 'white';
+    setTimeout(() => {
+        clearAll.style.backgroundColor = 'transparent';
+        clearAll.style.color = 'rgb(75, 60, 172)';
+    }, 100);
+})
