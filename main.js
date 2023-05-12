@@ -33,6 +33,9 @@ let color = colorInput.value;
 
 colorInput.addEventListener('input', function(e) {
     color = this.value;
+    eraserMode = false;
+    eraser.style.backgroundColor = 'transparent';
+    eraser.style.color = 'rgb(75, 60, 172)';
 })
 
 function fillContainer() {    
